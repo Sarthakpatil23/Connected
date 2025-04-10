@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - ConnectEd</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --glow-blue: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-pink: 0 0 10px rgba(255, 0, 255, 0.5);
+            --glow-purple: 0 0 10px rgba(157, 0, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .registration-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .registration-header p {
+            color: var(--text-secondary);
+        }
+
+        .registration-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(10, 10, 10, 0.5);
+            border: 2px solid var(--neon-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-blue);
+            font-weight: bold;
+            box-shadow: var(--glow-blue);
+        }
+
+        .step.active .step-number {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+        }
+
+        .step-text {
+            color: var(--text-secondary);
+        }
+
+        .step.active .step-text {
+            color: var(--neon-blue);
+        }
+
+        .registration-form {
+            background: rgba(10, 10, 10, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--neon-blue);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--neon-pink);
+            box-shadow: var(--glow-pink);
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+            box-shadow: var(--glow-pink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .registration-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .step {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-label, .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .checkbox-label input, .radio-label input {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-label:hover, .radio-label:hover {
+            color: var(--neon-blue);
+        }
+
+        .header {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--neon-blue);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-blue);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="alumni_network.html" class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">ConnectEd</span>
+            </a>
+            <nav class="nav-links">
+                <a href="alumni_network.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="registration-header">
+            <h1>Student Registration</h1>
+            <p>Join our community and connect with alumni</p>
+        </div>
+
+        <div class="registration-steps">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-text">Basic Information</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Profile Setup</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Complete Profile</div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" style="width: 33.33%"></div>
+        </div>
+
+        <form class="registration-form" id="studentRegistrationForm">
+            <!-- Step 1: Basic Information -->
+            <div class="form-step active" id="step1">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='alumni_network.html'">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Profile Setup -->
+            <div class="form-step" id="step2">
+                <div class="form-group">
+                    <label for="university">University/College</label>
+                    <input type="text" id="university" name="university" required>
+                </div>
+                <div class="form-group">
+                    <label for="major">Major/Field of Study</label>
+                    <input type="text" id="major" name="major" required>
+                </div>
+                <div class="form-group">
+                    <label for="graduationYear">Expected Graduation Year</label>
+                    <input type="number" id="graduationYear" name="graduationYear" required>
+                </div>
+                <div class="form-group">
+                    <label for="interests">Areas of Interest</label>
+                    <textarea id="interests" name="interests" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Complete Profile -->
+            <div class="form-step" id="step3">
+                <div class="form-group">
+                    <label for="skills">What technical or soft skills are you currently developing?</label>
+                    <textarea id="skills" name="skills" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projects">Have you worked on any notable projects or internships? Please describe.</label>
+                    <textarea id="projects" name="projects" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="passion">What kind of projects or problems are you most passionate about?</label>
+                    <textarea id="passion" name="passion" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>What type of guidance are you seeking from alumni?</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="guidance" value="career"> Career advice
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="guidance" value="resume"> Resume review
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="guidance" value="studies"> Higher studies mentoring
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="guidance" value="entrepreneurship"> Entrepreneurship
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="guidance" value="technical"> Technical guidance
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="guidance" value="networking"> General networking
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>How would you prefer to communicate with alumni?</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="email"> Email
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="video"> Video call
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="chat"> Chat
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="in-person"> In-person meetups
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="extracurricular">What extracurricular activities are you involved in?</label>
+                    <textarea id="extracurricular" name="extracurricular" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="clubs">Are there any student clubs or groups you are part of?</label>
+                    <textarea id="clubs" name="clubs" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="motivation">What motivates you the most in your academic/professional journey?</label>
+                    <textarea id="motivation" name="motivation" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="location">Are you looking for alumni in specific geographic locations?</label>
+                    <input type="text" id="location" name="location" placeholder="e.g., same city, abroad">
+                </div>
+                <div class="form-group">
+                    <label>Are you open to connecting with international alumni?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="international" value="yes"> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="international" value="no"> No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Would you prefer to connect with alumni from your department or open to all fields?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="department" value="same"> Same department
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="department" value="all"> All fields
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Would you like to connect with recent graduates or more experienced alumni?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="experience" value="recent"> Recent graduates
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="experience" value="experienced"> More experienced alumni
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="experience" value="both"> Both
+                        </label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+                    <button type="submit" class="btn btn-primary">Complete Registration</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function nextStep(currentStep) {
+            const nextStep = currentStep + 1;
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${nextStep}`).classList.add('active');
+            document.querySelectorAll('.step')[currentStep].classList.remove('active');
+            document.querySelectorAll('.step')[nextStep - 1].classList.add('active');
+            document.querySelector('.progress').style.width = `${(nextStep / 3) * 100}%`;
+        }
+
+        function prevStep(currentStep) {
+            const prevStep = currentStep - 1;
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${prevStep}`).classList.add('active');
+            document.querySelectorAll('.step')[currentStep - 1].classList.remove('active');
+            document.querySelectorAll('.step')[prevStep - 1].classList.add('active');
+            document.querySelector('.progress').style.width = `${(prevStep / 3) * 100}%`;
+        }
+
+        document.getElementById('studentRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Handle form submission
+            alert('Registration successful!');
+            // Redirect to student dashboard
+            window.location.href = 'student_dashboard.html';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectEd - Student Dashboard (Theme 2)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Base Theme */
+            --text-primary: #ffffff;
+            --text-secondary: #e2e8f0;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent-1: #3b82f6;
+            --accent-2: #8b5cf6;
+            --accent-3: #ec4899;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #3b82f6, #8b5cf6);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            position: fixed;
+            height: 100vh;
+            border-right: var(--border);
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent-1);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-1);
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-1);
+        }
+
+        .nav-item.active {
+            background: var(--accent-1);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-1);
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-1);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            background: var(--accent-1);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .dashboard-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: var(--border);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            color: var(--accent-1);
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--accent-1);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: var(--border);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-card h3 {
+            color: var(--accent-1);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-2);
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem;
+            }
+
+            .logo-text, .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: var(--border);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="alumni_network.html" class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">ConnectEd</span>
+        </a>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home nav-icon"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user-friends nav-icon"></i>
+                <span>Alumni</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-calendar-alt nav-icon"></i>
+                <span>Events</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-book nav-icon"></i>
+                <span>Resources</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog nav-icon"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="profile-section">
+                <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-pic">
+                <div class="welcome-text">
+                    <h1>Welcome, Student!</h1>
+                    <p>Ready to connect with alumni and grow your network?</p>
+                </div>
+            </div>
+            <div class="quick-actions">
+                <button class="action-btn">New Connection</button>
+                <button class="action-btn">Schedule Meeting</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Upcoming Sessions</h3>
+                <p>3</p>
+            </div>
+            <div class="stat-card">
+                <h3>Completed Sessions</h3>
+                <p>12</p>
+            </div>
+            <div class="stat-card">
+                <h3>Mentors Connected</h3>
+                <p>5</p>
+            </div>
+            <div class="stat-card">
+                <h3>Achievements</h3>
+                <p>8</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Connect with Alumni Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-user-friends card-icon"></i>
+                    <h3 class="card-title">Connect with Alumni</h3>
+                </div>
+                <div class="card-content">
+                    <p>Find and connect with alumni who match your interests and career goals.</p>
+                </div>
+                <button class="action-btn">View Alumni</button>
+            </div>
+
+            <!-- Career Guidance Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase card-icon"></i>
+                    <h3 class="card-title">Career Guidance</h3>
+                </div>
+                <div class="card-content">
+                    <p>Get personalized career advice and guidance from experienced professionals.</p>
+                </div>
+                <button class="action-btn">Schedule Session</button>
+            </div>
+
+            <!-- Events & Workshops Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 class="card-title">Events & Workshops</h3>
+                </div>
+                <div class="card-content">
+                    <p>Join upcoming events and workshops organized by alumni.</p>
+                </div>
+                <button class="action-btn">View Events</button>
+            </div>
+
+            <!-- Resources & Learning Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-book card-icon"></i>
+                    <h3 class="card-title">Resources & Learning</h3>
+                </div>
+                <div class="card-content">
+                    <p>Access exclusive resources and learning materials shared by alumni.</p>
+                </div>
+                <button class="action-btn">Browse Resources</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html> 

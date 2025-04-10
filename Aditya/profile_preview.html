@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectEd - Profile Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(148, 163, 184, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            overflow: hidden;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-title {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--neon-blue);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-blue);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--neon-blue);
+        }
+
+        .preference-list {
+            list-style: none;
+        }
+
+        .preference-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .preference-item i {
+            color: var(--neon-blue);
+            margin-right: 0.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            color: var(--dark-bg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-name {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-picture">
+                <img src="https://via.placeholder.com/150" alt="Profile Picture" id="previewProfilePic">
+            </div>
+            <h1 class="profile-name" id="previewName">John Doe</h1>
+            <p class="profile-title" id="previewTitle">Computer Science Student</p>
+        </div>
+
+        <div class="profile-grid">
+            <!-- Basic Information -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <i class="fas fa-user"></i>
+                    <h2 class="card-title">Basic Information</h2>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value" id="previewEmail">john.doe@example.com</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value" id="previewPhone">+1 234 567 8900</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Institution</div>
+                    <div class="info-value" id="previewInstitution">University of Technology</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Field of Study</div>
+                    <div class="info-value" id="previewField">Computer Science</div>
+                </div>
+            </div>
+
+            <!-- Skills & Projects -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <i class="fas fa-code"></i>
+                    <h2 class="card-title">Skills & Projects</h2>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Skills</div>
+                    <div class="info-value" id="previewSkills">JavaScript, Python, React</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Projects</div>
+                    <div class="info-value" id="previewProjects">Web Development, Machine Learning</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Passions</div>
+                    <div class="info-value" id="previewPassions">AI, Web Development</div>
+                </div>
+            </div>
+
+            <!-- Alumni Preferences -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <i class="fas fa-handshake"></i>
+                    <h2 class="card-title">Alumni Preferences</h2>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Guidance Seeking</div>
+                    <div class="tag-list" id="previewGuidance">
+                        <span class="tag">Career Advice</span>
+                        <span class="tag">Technical Guidance</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Communication Preference</div>
+                    <div class="tag-list" id="previewCommunication">
+                        <span class="tag">Video Call</span>
+                        <span class="tag">Email</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Location Preference</div>
+                    <div class="info-value" id="previewLocation">Open to international connections</div>
+                </div>
+            </div>
+
+            <!-- Interests & Activities -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <i class="fas fa-heart"></i>
+                    <h2 class="card-title">Interests & Activities</h2>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Extracurricular Activities</div>
+                    <div class="info-value" id="previewActivities">Coding Club, Debate Team</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Student Clubs</div>
+                    <div class="info-value" id="previewClubs">Computer Science Society</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Motivation</div>
+                    <div class="info-value" id="previewMotivation">Creating innovative solutions</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-secondary" onclick="window.location.href='student_registration.html'">Edit Profile</button>
+            <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">Complete Registration</button>
+        </div>
+    </div>
+
+    <script>
+        // This script would be populated with actual data from the registration form
+        // For now, it's just a static preview
+        document.addEventListener('DOMContentLoaded', function() {
+            // You would typically get this data from the registration form
+            const profileData = {
+                name: 'John Doe',
+                title: 'Computer Science Student',
+                email: 'john.doe@example.com',
+                phone: '+1 234 567 8900',
+                institution: 'University of Technology',
+                field: 'Computer Science',
+                skills: 'JavaScript, Python, React',
+                projects: 'Web Development, Machine Learning',
+                passions: 'AI, Web Development',
+                guidance: ['Career Advice', 'Technical Guidance'],
+                communication: ['Video Call', 'Email'],
+                location: 'Open to international connections',
+                activities: 'Coding Club, Debate Team',
+                clubs: 'Computer Science Society',
+                motivation: 'Creating innovative solutions'
+            };
+
+            // Update the preview with the data
+            Object.keys(profileData).forEach(key => {
+                const element = document.getElementById(`preview${key.charAt(0).toUpperCase() + key.slice(1)}`);
+                if (element) {
+                    if (Array.isArray(profileData[key])) {
+                        element.innerHTML = profileData[key].map(item => 
+                            `<span class="tag">${item}</span>`
+                        ).join('');
+                    } else {
+                        element.textContent = profileData[key];
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

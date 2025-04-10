@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectEd - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --glow-blue: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-pink: 0 0 10px rgba(255, 0, 255, 0.5);
+            --glow-purple: 0 0 10px rgba(157, 0, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.9);
+            padding: 1.5rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow-blue);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: var(--glow-blue); }
+            50% { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue); }
+            100% { text-shadow: var(--glow-blue); }
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-blue);
+        }
+
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+
+        .profile-btn a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            color: var(--neon-blue);
+            font-size: 24px;
+            text-decoration: none;
+            border-radius: 50%;
+            background: rgba(0, 243, 255, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+        }
+
+        .profile-btn a:hover {
+            transform: scale(1.1);
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 1100px;
+            max-width: 95%;
+            margin-top: 100px;
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0, 243, 255, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--neon-blue);
+        }
+
+        /* Image Section */
+        .image-area {
+            flex: 1;
+            background: url('loginimage.png') no-repeat center center/cover;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .image-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 243, 255, 0.1), rgba(157, 0, 255, 0.1));
+        }
+
+        /* Login Form Section */
+        .login-area {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            min-width: 450px;
+        }
+
+        .login-area h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: var(--glow-blue);
+        }
+
+        .login-area p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        form input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--neon-blue);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+        }
+
+        form input:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: var(--glow-pink);
+        }
+
+        form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            border-radius: 6px;
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+        }
+
+        button:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Social Login Buttons */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-login p {
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-buttons button {
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .google {
+            border-color: #db4437;
+            color: #db4437;
+            box-shadow: 0 0 10px rgba(219, 68, 55, 0.5);
+        }
+
+        .google:hover {
+            background: #db4437;
+            color: var(--text-primary);
+        }
+
+        .facebook {
+            border-color: #4267B2;
+            color: #4267B2;
+            box-shadow: 0 0 10px rgba(66, 103, 178, 0.5);
+        }
+
+        .facebook:hover {
+            background: #4267B2;
+            color: var(--text-primary);
+        }
+
+        .apple {
+            border-color: #000;
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .apple:hover {
+            background: #000;
+            color: var(--text-primary);
+        }
+
+        /* Links */
+        .login-area a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-area a:hover {
+            color: var(--neon-pink);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+                width: 95%;
+            }
+
+            .image-area {
+                width: 100%;
+                height: 320px;
+            }
+
+            .login-area {
+                width: 100%;
+                padding: 50px;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .login-area h2 {
+                font-size: 2rem;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-graduation-cap"></i></span>
+            <h1>ConnectEd</h1>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="profile-btn">
+            <a href="profile.html"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="image-area"></div>  
+        <div class="login-area">
+            <h2>Welcome</h2>
+            <p>Login with Email</p>
+            <form>
+                <input type="email" placeholder="Email id" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">LOGIN</button>
+            </form>
+            <p><a href="#">Forgot your password?</a></p>
+            <div class="social-login">
+                <p>OR</p>
+                <div class="social-buttons">
+                    <button class="google">Google</button>
+                    <button class="facebook">Facebook</button>
+                    <button class="apple">LinkedIn</button>
+                </div>
+            </div>
+            <p>Don't have an account? <a href="#">Register Now</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Add any JavaScript functionality here
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add login logic here
+        });
+    </script>
+</body>
+</html> 

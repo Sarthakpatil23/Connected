@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Registration - ConnectEd</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --glow-blue: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-pink: 0 0 10px rgba(255, 0, 255, 0.5);
+            --glow-purple: 0 0 10px rgba(157, 0, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .registration-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .registration-header p {
+            color: var(--text-secondary);
+        }
+
+        .registration-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(10, 10, 10, 0.5);
+            border: 2px solid var(--neon-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-blue);
+            font-weight: bold;
+            box-shadow: var(--glow-blue);
+        }
+
+        .step.active .step-number {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+        }
+
+        .step-text {
+            color: var(--text-secondary);
+        }
+
+        .step.active .step-text {
+            color: var(--neon-blue);
+        }
+
+        .registration-form {
+            background: rgba(10, 10, 10, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--neon-blue);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--neon-pink);
+            box-shadow: var(--glow-pink);
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-primary {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+            box-shadow: var(--glow-pink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            transition: width 0.3s ease;
+        }
+
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-label, .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .checkbox-label input, .radio-label input {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-label:hover, .radio-label:hover {
+            color: var(--neon-blue);
+        }
+
+        .header {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--neon-blue);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-blue);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .registration-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .step {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="alumni_network.html" class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">ConnectEd</span>
+            </a>
+            <nav class="nav-links">
+                <a href="alumni_network.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="registration-header">
+            <h1>Mentor Registration</h1>
+            <p>Share your expertise and guide the next generation</p>
+        </div>
+
+        <div class="registration-steps">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-text">Basic Information</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">Professional Details</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Mentorship Preferences</div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" style="width: 33.33%"></div>
+        </div>
+
+        <form class="registration-form" id="mentorRegistrationForm">
+            <!-- Step 1: Basic Information -->
+            <div class="form-step active" id="step1">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='alumni_network.html'">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Professional Details -->
+            <div class="form-step" id="step2">
+                <div class="form-group">
+                    <label for="currentPosition">Current Position</label>
+                    <input type="text" id="currentPosition" name="currentPosition" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company/Organization</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <select id="industry" name="industry" required>
+                        <option value="">Select Industry</option>
+                        <option value="tech">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="yearsExperience">Years of Experience</label>
+                    <input type="number" id="yearsExperience" name="yearsExperience" required>
+                </div>
+                <div class="form-group">
+                    <label for="expertise">Areas of Expertise</label>
+                    <textarea id="expertise" name="expertise" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Mentorship Preferences -->
+            <div class="form-step" id="step3">
+                <div class="form-group">
+                    <label>Preferred Mentorship Areas</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="mentorshipAreas" value="career"> Career Development
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="mentorshipAreas" value="technical"> Technical Skills
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="mentorshipAreas" value="leadership"> Leadership
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="mentorshipAreas" value="entrepreneurship"> Entrepreneurship
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="mentorshipAreas" value="research"> Research
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Communication Methods</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="email"> Email
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="video"> Video Call
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="communication" value="in-person"> In-person
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Time Commitment</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="timeCommitment" value="1-2"> 1-2 hours per month
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="timeCommitment" value="3-5"> 3-5 hours per month
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="timeCommitment" value="5+"> 5+ hours per month
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="mentorshipGoals">What are your goals as a mentor?</label>
+                    <textarea id="mentorshipGoals" name="mentorshipGoals" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="successStories">Share a success story from your career</label>
+                    <textarea id="successStories" name="successStories" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+                    <button type="submit" class="btn btn-primary">Complete Registration</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function nextStep(currentStep) {
+            const nextStep = currentStep + 1;
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${nextStep}`).classList.add('active');
+            document.querySelectorAll('.step')[currentStep].classList.remove('active');
+            document.querySelectorAll('.step')[nextStep - 1].classList.add('active');
+            document.querySelector('.progress').style.width = `${(nextStep / 3) * 100}%`;
+        }
+
+        function prevStep(currentStep) {
+            const prevStep = currentStep - 1;
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            document.getElementById(`step${prevStep}`).classList.add('active');
+            document.querySelectorAll('.step')[currentStep - 1].classList.remove('active');
+            document.querySelectorAll('.step')[prevStep - 1].classList.add('active');
+            document.querySelector('.progress').style.width = `${(prevStep / 3) * 100}%`;
+        }
+
+        document.getElementById('mentorRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Handle form submission
+            alert('Registration successful!');
+            // Redirect to mentor dashboard
+            window.location.href = 'mentor_dashboard.html';
+        });
+    </script>
+</body>
+</html> 

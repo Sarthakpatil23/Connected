@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectEd - Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Cyberpunk Theme */
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff9d;
+            --neon-yellow: #ffd700;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --glow-blue: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-pink: 0 0 10px rgba(255, 0, 255, 0.5);
+            --glow-purple: 0 0 10px rgba(157, 0, 255, 0.5);
+            --glow-green: 0 0 10px rgba(0, 255, 157, 0.5);
+            --glow-yellow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Theme 1: Deep Space */
+        .theme-space {
+            --bg-primary: #0a0a2a;
+            --bg-secondary: #050515;
+            --accent-1: #00f3ff;
+            --accent-2: #9d00ff;
+            --accent-3: #ff00ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3ff;
+            --glow-1: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-2: 0 0 10px rgba(157, 0, 255, 0.5);
+            --glow-3: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Theme 2: Neon Jungle */
+        .theme-jungle {
+            --bg-primary: #0a2a0a;
+            --bg-secondary: #051505;
+            --accent-1: #00ff9d;
+            --accent-2: #ffd700;
+            --accent-3: #ff00ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b3ffb3;
+            --glow-1: 0 0 10px rgba(0, 255, 157, 0.5);
+            --glow-2: 0 0 10px rgba(255, 215, 0, 0.5);
+            --glow-3: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Theme 3: Sunset Vibes */
+        .theme-sunset {
+            --bg-primary: #2a0a0a;
+            --bg-secondary: #150505;
+            --accent-1: #ffd700;
+            --accent-2: #ff00ff;
+            --accent-3: #00f3ff;
+            --text-primary: #ffffff;
+            --text-secondary: #ffb3b3;
+            --glow-1: 0 0 10px rgba(255, 215, 0, 0.5);
+            --glow-2: 0 0 10px rgba(255, 0, 255, 0.5);
+            --glow-3: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        /* Theme 4: Ocean Depths */
+        .theme-ocean {
+            --bg-primary: #0a1a2a;
+            --bg-secondary: #050a15;
+            --accent-1: #00f3ff;
+            --accent-2: #00ff9d;
+            --accent-3: #9d00ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b3d1ff;
+            --glow-1: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-2: 0 0 10px rgba(0, 255, 157, 0.5);
+            --glow-3: 0 0 10px rgba(157, 0, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+        }
+
+        h1, h2, h3, h4, .btn {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(5, 5, 5, 0.9));
+            border-radius: 12px;
+            border: 1px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-header:hover {
+            transform: translateY(-5px) rotateX(5deg);
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            background: rgba(10, 10, 10, 0.7);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-2);
+            border-color: var(--accent-2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            color: var(--accent-1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--accent-1);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent-1);
+            color: var(--bg-primary);
+            box-shadow: var(--glow-1);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-2);
+            transform: translateY(-2px);
+        }
+
+        .alumni-list {
+            margin-top: 1rem;
+        }
+
+        .alumni-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--accent-1);
+        }
+
+        .alumni-item:last-child {
+            border-bottom: none;
+        }
+
+        .alumni-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--accent-1);
+        }
+
+        .alumni-info {
+            flex: 1;
+        }
+
+        .alumni-name {
+            color: var(--accent-1);
+            font-weight: 500;
+        }
+
+        .alumni-position {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .connect-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--accent-1);
+            color: var(--accent-1);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .connect-btn:hover {
+            background: var(--accent-1);
+            color: var(--bg-primary);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .profile-section {
+                justify-content: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .header {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--accent-1);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-1);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(5, 5, 5, 0.9));
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            border-color: var(--accent-2);
+            box-shadow: var(--glow-2);
+        }
+
+        .stat-card h3 {
+            color: var(--accent-1);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .upcoming-events {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(5, 5, 5, 0.9));
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-2);
+            box-shadow: var(--glow-2);
+            margin-bottom: 2rem;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .upcoming-events:hover {
+            transform: translateY(-5px) rotateX(5deg);
+        }
+
+        .event-card {
+            background: rgba(10, 10, 10, 0.5);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-3);
+            margin-bottom: 1rem;
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            border-color: var(--accent-1);
+            box-shadow: var(--glow-1);
+        }
+
+        .event-card h3 {
+            color: var(--accent-3);
+            margin-bottom: 0.5rem;
+        }
+
+        .event-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .event-card .btn {
+            background: transparent;
+            color: var(--accent-3);
+            border: 2px solid var(--accent-3);
+            box-shadow: var(--glow-3);
+        }
+
+        .event-card .btn:hover {
+            background: var(--accent-3);
+            color: var(--bg-primary);
+        }
+
+        .mentor-connections {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(5, 5, 5, 0.9));
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .mentor-connections:hover {
+            transform: translateY(-5px) rotateX(5deg);
+        }
+
+        .mentor-card {
+            background: rgba(10, 10, 10, 0.5);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-1);
+            margin-bottom: 1rem;
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            border-color: var(--accent-2);
+            box-shadow: var(--glow-2);
+        }
+
+        .mentor-card h3 {
+            color: var(--accent-1);
+            margin-bottom: 0.5rem;
+        }
+
+        .mentor-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mentor-card .btn {
+            background: transparent;
+            color: var(--accent-1);
+            border: 2px solid var(--accent-1);
+            box-shadow: var(--glow-1);
+        }
+
+        .mentor-card .btn:hover {
+            background: var(--accent-1);
+            color: var(--bg-primary);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .theme-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--text-primary);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .theme-space-btn { background: linear-gradient(135deg, #0a0a2a, #050515); }
+        .theme-jungle-btn { background: linear-gradient(135deg, #0a2a0a, #051505); }
+        .theme-sunset-btn { background: linear-gradient(135deg, #2a0a0a, #150505); }
+        .theme-ocean-btn { background: linear-gradient(135deg, #0a1a2a, #050a15); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="alumni_network.html" class="logo">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">ConnectEd</span>
+            </a>
+            <nav class="nav-links">
+                <a href="alumni_network.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="theme-selector">
+        <div class="theme-btn theme-space-btn" onclick="changeTheme('space')"></div>
+        <div class="theme-btn theme-jungle-btn" onclick="changeTheme('jungle')"></div>
+        <div class="theme-btn theme-sunset-btn" onclick="changeTheme('sunset')"></div>
+        <div class="theme-btn theme-ocean-btn" onclick="changeTheme('ocean')"></div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-header floating">
+            <div class="profile-section">
+                <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-pic">
+                <div class="welcome-text">
+                    <h1>Welcome, Student!</h1>
+                    <p>Ready to connect with alumni and grow your network?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Upcoming Sessions</h3>
+                <p>3</p>
+            </div>
+            <div class="stat-card">
+                <h3>Completed Sessions</h3>
+                <p>12</p>
+            </div>
+            <div class="stat-card">
+                <h3>Mentors Connected</h3>
+                <p>5</p>
+            </div>
+            <div class="stat-card">
+                <h3>Achievements</h3>
+                <p>8</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Connect with Alumni Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-user-friends card-icon"></i>
+                    <h3 class="card-title">Connect with Alumni</h3>
+                </div>
+                <div class="card-content">
+                    <p>Find and connect with alumni who match your interests and career goals.</p>
+                    <div class="alumni-list">
+                        <div class="alumni-item">
+                            <img src="https://via.placeholder.com/40" alt="Alumni" class="alumni-pic">
+                            <div class="alumni-info">
+                                <div class="alumni-name">John Doe</div>
+                                <div class="alumni-position">Senior Software Engineer at Google</div>
+                            </div>
+                            <button class="connect-btn">Connect</button>
+                        </div>
+                        <div class="alumni-item">
+                            <img src="https://via.placeholder.com/40" alt="Alumni" class="alumni-pic">
+                            <div class="alumni-info">
+                                <div class="alumni-name">Jane Smith</div>
+                                <div class="alumni-position">Product Manager at Microsoft</div>
+                            </div>
+                            <button class="connect-btn">Connect</button>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">View More Alumni</a>
+            </div>
+
+            <!-- Career Guidance Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase card-icon"></i>
+                    <h3 class="card-title">Career Guidance</h3>
+                </div>
+                <div class="card-content">
+                    <p>Get personalized career advice and guidance from experienced professionals.</p>
+                    <ul style="list-style: none; margin-top: 1rem;">
+                        <li style="margin-bottom: 0.5rem;">• Resume Review</li>
+                        <li style="margin-bottom: 0.5rem;">• Interview Preparation</li>
+                        <li style="margin-bottom: 0.5rem;">• Career Path Planning</li>
+                    </ul>
+                </div>
+                <a href="#" class="btn btn-primary">Schedule Session</a>
+            </div>
+
+            <!-- Events & Workshops Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 class="card-title">Events & Workshops</h3>
+                </div>
+                <div class="card-content">
+                    <p>Join upcoming events and workshops organized by alumni.</p>
+                    <div style="margin-top: 1rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Tech Talk: AI in Industry</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Tomorrow, 2:00 PM</p>
+                        </div>
+                        <div>
+                            <strong>Career Fair 2024</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Next Week</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">View All Events</a>
+            </div>
+
+            <!-- Resources & Learning Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-book card-icon"></i>
+                    <h3 class="card-title">Resources & Learning</h3>
+                </div>
+                <div class="card-content">
+                    <p>Access exclusive resources and learning materials shared by alumni.</p>
+                    <ul style="list-style: none; margin-top: 1rem;">
+                        <li style="margin-bottom: 0.5rem;">• Industry Reports</li>
+                        <li style="margin-bottom: 0.5rem;">• Study Materials</li>
+                        <li style="margin-bottom: 0.5rem;">• Project Templates</li>
+                    </ul>
+                </div>
+                <a href="#" class="btn btn-primary">Browse Resources</a>
+            </div>
+
+            <!-- Mentorship Program Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-handshake card-icon"></i>
+                    <h3 class="card-title">Mentorship Program</h3>
+                </div>
+                <div class="card-content">
+                    <p>Join our mentorship program and get paired with an experienced mentor.</p>
+                    <div style="margin-top: 1rem;">
+                        <p style="margin-bottom: 0.5rem;">• One-on-one mentoring sessions</p>
+                        <p style="margin-bottom: 0.5rem;">• Personalized guidance</p>
+                        <p style="margin-bottom: 0.5rem;">• Long-term career support</p>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">Apply for Mentorship</a>
+            </div>
+
+            <!-- Alumni Projects Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-project-diagram card-icon"></i>
+                    <h3 class="card-title">Alumni Projects</h3>
+                </div>
+                <div class="card-content">
+                    <p>Collaborate with alumni on real-world projects and gain practical experience.</p>
+                    <div style="margin-top: 1rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Open Source Initiative</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">Looking for contributors</p>
+                        </div>
+                        <div>
+                            <strong>Startup Incubator</strong>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary);">New projects starting soon</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">View Projects</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add 3D effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.stat-card, .event-card, .mentor-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.transform = `perspective(1000px) rotateX(${(y - rect.height/2)/20}deg) rotateY(${(x - rect.width/2)/20}deg)`;
+            });
+        });
+
+        // Reset transform when mouse leaves
+        document.addEventListener('mouseleave', () => {
+            const cards = document.querySelectorAll('.stat-card, .event-card, .mentor-card');
+            cards.forEach(card => {
+                card.style.transform = 'none';
+            });
+        });
+
+        document.querySelectorAll('.connect-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const alumniName = this.parentElement.querySelector('.alumni-name').textContent;
+                alert(`Connection request sent to ${alumniName}!`);
+            });
+        });
+
+        function changeTheme(theme) {
+            document.body.className = `theme-${theme}`;
+            
+            // Update localStorage to persist theme
+            localStorage.setItem('selectedTheme', theme);
+        }
+
+        // Load saved theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'space';
+            changeTheme(savedTheme);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectEd - Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --glow-blue: 0 0 10px rgba(0, 243, 255, 0.5);
+            --glow-pink: 0 0 10px rgba(255, 0, 255, 0.5);
+            --glow-purple: 0 0 10px rgba(157, 0, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.9);
+            padding: 1.5rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow-blue);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: var(--glow-blue); }
+            50% { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue); }
+            100% { text-shadow: var(--glow-blue); }
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 800px;
+            max-width: 95%;
+            margin-top: 120px;
+            background: rgba(10, 10, 10, 0.5);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 12px 35px rgba(0, 243, 255, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .register-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: var(--glow-blue);
+            text-align: center;
+        }
+
+        .register-options {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .option-card {
+            flex: 1;
+            padding: 2rem;
+            background: rgba(10, 10, 10, 0.7);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--neon-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-pink);
+            box-shadow: var(--glow-pink);
+        }
+
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow-blue);
+        }
+
+        .option-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .option-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .option-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            border-radius: 6px;
+            color: var(--neon-blue);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+        }
+
+        .option-button:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+        }
+
+        .back-to-login {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .back-to-login a {
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-to-login a:hover {
+            color: var(--neon-pink);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .register-options {
+                flex-direction: column;
+            }
+
+            .option-card {
+                width: 100%;
+            }
+
+            .register-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-graduation-cap"></i></span>
+            <h1>ConnectEd</h1>
+        </a>
+    </header>
+
+    <div class="container">
+        <h1 class="register-title">Choose Your Path</h1>
+        <div class="register-options">
+            <div class="option-card" onclick="window.location.href='register_student.html'">
+                <div class="option-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2 class="option-title">Student</h2>
+                <p class="option-description">Join as a student to access learning resources, connect with mentors, and grow your skills.</p>
+                <button class="option-button">Register as Student</button>
+            </div>
+            <div class="option-card" onclick="window.location.href='register_mentor.html'">
+                <div class="option-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h2 class="option-title">Mentor</h2>
+                <p class="option-description">Join as a mentor to share your expertise, guide students, and make an impact.</p>
+                <button class="option-button">Register as Mentor</button>
+            </div>
+        </div>
+        <div class="back-to-login">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        // Add any JavaScript functionality here
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Add any additional click handling here
+            });
+        });
+    </script>
+</body>
+</html> 
